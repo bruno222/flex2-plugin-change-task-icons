@@ -266,16 +266,16 @@ export default class FlexV2333Plugin extends FlexPlugin {
       </svg>
     );
 
-    this.createTaskChannel(Flex.DefaultTaskChannels.ChatWhatsApp, 'hamburger', iconHamburger, (task: Task) => {
+    this.createTaskChannel('hamburger', iconHamburger, (task: Task) => {
       return true;
     });
 
-    this.createTaskChannel(Flex.DefaultTaskChannels.Chat, 'piano', iconPiano, (task: Task) => {
+    this.createTaskChannel('piano', iconPiano, (task: Task) => {
       return !!(task.attributes as any).piano;
     });
   }
 
-  createTaskChannel(channelBase: Flex.TaskChannelDefinition, name: string, svgIcon: JSX.Element, isApplicable: any) {
+  createTaskChannel(name: string, svgIcon: JSX.Element, isApplicable: any) {
     const definition = Flex.DefaultTaskChannels.createDefaultTaskChannel(name, isApplicable, svgIcon, svgIcon);
     Flex.TaskChannels.register(definition);
   }
