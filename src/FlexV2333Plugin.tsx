@@ -273,6 +273,40 @@ export default class FlexV2333Plugin extends FlexPlugin {
     this.createTaskChannel('piano', iconPiano, (task: Task) => {
       return !!(task.attributes as any).piano;
     });
+
+    this.themeWrapper(manager);
+  }
+
+  themeWrapper(manager: Flex.Manager) {
+    Flex.TaskCard.Content.addWrapper((Original) => (props) => {
+      console.log('@@@ addWrapper attributes', props.task!.attributes);
+      const { theme: managerTheme } = manager.configuration;
+
+      const theme = {
+        ...managerTheme,
+        componentThemeOverrides: {
+          ...managerTheme!.componentThemeOverrides,
+          TaskCard: {
+            IconArea: {
+              Default: {
+                backgroundColor: props.task!.attributes.piano ? 'red' : 'yellow',
+              },
+            },
+            Container: {
+              Default: {
+                backgroundColor: props.task!.attributes.piano ? 'red' : 'yellow',
+              },
+            },
+          },
+        },
+      };
+
+      return (
+        <Flex.StorelessThemeProvider themeConf={theme}>
+          <Original {...props} />
+        </Flex.StorelessThemeProvider>
+      );
+    });
   }
 
   createTaskChannel(name: string, svgIcon: JSX.Element, isApplicable: any) {
